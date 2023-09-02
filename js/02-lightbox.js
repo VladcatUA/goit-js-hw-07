@@ -29,23 +29,9 @@ function handleClick(event) {
     if (event.target === event.currentTarget) {
         return;
     }
-    
-    const images = galleryItems.map(({ original, description }) => ({
-            src: original,
-            alt: description,
-          }));
 
     const lightbox = new SimpleLightbox('.gallery a', {
-            items: images,
-            captionsData: 'alt',
-            captionDelay: 250,
+      captionsData: 'alt',
+      captionDelay: 250,
     });
-        
-    lightbox.on('show.simplelightbox', function () {
-            lightbox.items.forEach((item, index) => {
-              if (item.src === imageSource) {
-                lightbox.showIndex(index);
-              }
-            });
-          });
 }
