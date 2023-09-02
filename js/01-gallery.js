@@ -9,6 +9,8 @@ gallery.addEventListener('click', handleClick);
 const markupGallery = createGallery(galleryItems);
 gallery.insertAdjacentHTML("beforeend", markupGallery);
 
+let instance = null;
+
 function createGallery (galleryItems) {
     return galleryItems.map(({preview, original, description}) => { 
         return `<li class="gallery__item">
@@ -18,6 +20,7 @@ function createGallery (galleryItems) {
         src="${preview}"
         data-source="${original}"
         alt="${description}"
+        width="600"
       />
     </a>
     </li>`
@@ -36,7 +39,7 @@ function handleClick(event) {
     const imageInfo = galleryItems.find(galleryPhoto => 
         galleryPhoto.original === imageSource);
     
-        const instance = basicLightbox.create(`
+    instance = basicLightbox.create(`
         <div class="modal">
           <a class="gallery__link" href="${imageInfo.original}">
             <img
@@ -50,4 +53,14 @@ function handleClick(event) {
       `);
     
       instance.show();
+
+document.addEventListener('keydown', handleKeyPress);
+}
+
+function handleKeyPress(event) {
+  if (event.key === 'Escape' && instance) {
+    instance.close();
+    instance = null; 
+    document.removeEventListener('keydown', handleKeyPress);
+  }
 }
